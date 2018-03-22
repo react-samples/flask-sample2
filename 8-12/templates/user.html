@@ -1,0 +1,77 @@
+{% extends "theme.html" %}
+{% block title %}アンサ：トップページ{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  <div class="jumbotron">
+    <div class="row" >
+      <div class="col-12 col-sm-8 col-md-8 col-lg-8">
+        <h1>{{user.username}}</h1>
+        <p>{{user.description}}</p>
+      </div>
+      <div class="col-12 col-sm-4 col-md-4 col-lg-4">
+        <div>
+          <img src="{{user.user_image_url}}" class="img-thumbnail" width="200" height="200" alt="{{user.description}}"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+  {% for question in questions %}
+    {% if question.answerer_id|int == current_user.id|int or question.answer_body != None %}
+    <div class="row">
+      <div class="col-2 col-sm-1 col-md-1 col-lg-1">
+        <img class="img-thumbnail" style="min-width:36px" src="{{question.profile_image_url}}"/>
+      </div>
+      <div class="col-10 col-sm-11 col-md-11 col-lg-11">
+        <div class="card text-center">
+          <div class="card-body">
+            <p class="card-text">{{question.body}}</p>
+            {% if question.answer_body == None %}
+            <a href="/answer_to/{{question.id}}" class="btn btn-primary">返信する</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if question.answer_body != None %}
+     <div class="row" style="margin-top:20px">
+       <div class="col-1 col-sm-1 col-md-1 col-lg-1">
+         <i class="fa fa-reply fa-rotate-90"></i>
+       </div>
+       <div class="col-2 col-sm-1 col-md-1 col-lg-1">
+         <img class="img-thumbnail" style="min-width:36px;max-width:64px;" src="{{question.answerer_image_url}}"/>
+       </div>
+       <div class="col-9 col-sm-10 col-md-10 col-lg-10">
+         <div class="card text-center">
+           <div class="card-body">
+             <p class="card-text">{{question.answer_body}}</p>
+           </div>
+         </div>
+       </div>
+     </div>
+    {% endif %}
+  {% endfor %}
+  {% if not questions or questions|length == 0: %}
+    <h1>まだ質問はありません。新しく質問があればここに表示されます。</h1>
+  {% endif %}
+
+  {% if current_user.id != user.id %}
+      <h2>{{user.username}}さんに質問を送る</h2>
+      <div class="row" style="margin-top:20px">
+       <div class="col-12">
+        <form action="/question" method="POST">
+          <div class="form-group">
+          <textarea class="form-control" name="body" id="textarea" rows="3"></textarea>
+          <input type="hidden" name="answerer_image_url" value="{{ user.user_image_url }}">
+          <input type="hidden" name="answerer_id" value="{{ user.id }}"/>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <button type="submit" class="btn btn-primary">送信する</button>
+        </form>
+       </div>
+      </div>
+  {% endif %}
+  </div>
+{% endblock %}

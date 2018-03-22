@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    {% if current_user.is_authenticated %}
+    <h2>{{current_user.username}}</h2>
+    <img src="{{current_user.user_image_url}}" width="64"/>
+    <p>{{current_user.description}}</p>
+    {% else %}
+    <h2>ログインしていません</h2>
+    {% endif %}
+  </body>
+</html>

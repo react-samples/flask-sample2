@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <h1>ユーザーを登録</h1>
+    <form method="POST" action="/register" enctype="multipart/form-data">
+      <input placeholder="名前" name="username" type="text"/>
+      <textarea name="description" placeholder="コメント">
+      </textarea>
+      <input type="file" name="image"/>
+      <input value="送信" type="submit"/>
+    </form>
+  </body>
+</html>

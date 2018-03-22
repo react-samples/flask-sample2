@@ -1,0 +1,24 @@
+{% extends "theme.html" %}
+{% block title %}アンサ：トップページ{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  <div class="jumbotron">
+    <div class="row" >
+      <div class="col-12 col-sm-8 col-md-8 col-lg-8">
+        <h1>アンサ</h1>
+        <p>質問に答えるサービス！</p>
+      </div>
+      <div class="col-12 col-sm-4 col-md-4 col-lg-4">
+        <img src="http://2.bp.blogspot.com/-Vo_Zg1TcAz8/V5NDnu2l8WI/AAAAAAAA8dQ/bVr8Ybi7k9oSX8MH0Af9Kvv5MzW-ccwJQCLcB/s800/ai_pet_family.png" class="img-thumbnail" width="200" height="200" alt="A generic square placeholder image with a white border around it, making it resemble a photograph taken with an old instant camera"/>
+
+       {% if current_user.is_anonymous == True %}
+        <a href="/oauth/twitter" class="btn btn-primary">Twitterでログインして開始</a>
+       {% else %}
+        <a href="/user/{{current_user.id}}" class="btn btn-primary">あなたへの質問を見る</a>
+       {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
